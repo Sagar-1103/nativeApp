@@ -4,7 +4,7 @@ import RNPrint from 'react-native-print';
 import RNFS from 'react-native-fs';
 import uuid from 'react-native-uuid';
 
-const ImageDownload = ({route}) => {
+const Pdf = ({route}) => {
   const {filePath,name} = route.params;
 
   const printPdf = async()=>{
@@ -13,7 +13,7 @@ const ImageDownload = ({route}) => {
   const downloadPdf = async () => {
     try {
       const id = uuid.v4().slice(0,2);
-      const destinationPath = `${RNFS.DownloadDirectoryPath}/${name.split(" ")[0]}-${id}.jpg`;
+      const destinationPath = `${RNFS.DownloadDirectoryPath}/${name.split(" ")[0]}-${id}.pdf`;
       await RNFS.copyFile(filePath, destinationPath);
       console.log(filePath);
       Alert.alert('Download Successful', `PDF downloaded to downloads folder.`);
@@ -26,10 +26,10 @@ const ImageDownload = ({route}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={downloadPdf} >
-        <Text style={styles.buttonText}>Download Image</Text>
+        <Text style={styles.buttonText}>Download PDF</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={printPdf}>
-        <Text style={styles.buttonText}>Print Image</Text>
+        <Text style={styles.buttonText}>Print PDF</Text>
       </TouchableOpacity>
     </View>
   );
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default ImageDownload;
+export default Pdf;

@@ -12,9 +12,9 @@ const Files = ({navigation}) => {
 
   const getFiles = async () => {
     const result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/../cache/');
-    const res = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/Enetracare/downloads');
-    console.log(res);
-    const tempFiles = result.filter(file => file.name.endsWith('.pdf'));
+    let tempFiles = result.filter(file => file.name.endsWith('.pdf'));
+     tempFiles = tempFiles.filter(file => !file.name.includes('Right'));
+     tempFiles = tempFiles.filter(file => !file.name.includes('Left'));
     // console.log(tempFiles);
     setFiles(tempFiles);
     // console.log(RNFS.DocumentDirectoryPath + '/../cache/');

@@ -233,9 +233,67 @@ await requestStoragePermission();
     </html>
   `;
 
+  const rightEyePdfContent = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <img src="${rightEyeImageBase64}" alt="Right Eye Image" />
+</body>
+</html>
+`;
+  const leftEyePdfContent = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <img src="${leftEyeImageBase64}" alt="Right Eye Image" />
+</body>
+</html>
+`;
+
+
     // Save PDF
     const pdfFilePath = `${folderPath}/${name}_${phoneNumber}_info.pdf`;
+    const rightPdf = `${folderPath}/${name}_Right.pdf`;
+    const leftPdf = `${folderPath}/${name}_Left.pdf`;
     await RNFS.writeFile(pdfFilePath, pdfContent, 'utf8');
+    await RNFS.writeFile(rightPdf, rightEyePdfContent, 'utf8');
+    await RNFS.writeFile(leftPdf, leftEyePdfContent, 'utf8');
     //   const pdfInfo = await RNFS.getInfoAsync(pdfFilePath);
     const pdfInfo = await RNFS.exists(pdfFilePath);
     console.log(pdfInfo);
@@ -248,12 +306,22 @@ await requestStoragePermission();
 
     const printOptions = {
       html: pdfContent, // You can provide HTML content directly if needed
-      fileName: `${name}-${phoneNumber.slice(0,11)}`,
+      fileName:`${name}-${phoneNumber.slice(0,11)}`, 
+    };
+    const rightPrintOptions = {
+      html: rightEyePdfContent, // You can provide HTML content directly if needed
+      fileName: `${name}_Right.pdf`,
+    };
+    const leftPrintOptions = {
+      html: leftEyePdfContent, // You can provide HTML content directly if needed
+      fileName: `${name}_Left.pdf`,
     };
 
     let pdf = await RNHTMLtoPDF.convert(printOptions);
     console.log('Pdf Generated');
-
+    await RNHTMLtoPDF.convert(rightPrintOptions);
+    await RNHTMLtoPDF.convert(leftPrintOptions);
+  
     // Alert.alert('Success', 'Form submitted successfully!');
     navigation.navigate("Pdf",{filePath: pdf.filePath,name:name});
 

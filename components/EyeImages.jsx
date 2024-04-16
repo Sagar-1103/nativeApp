@@ -11,9 +11,10 @@ const EyeImages = ({navigation}) => {
   }, []);
 
   const getFiles = async () => {
-    const result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/Enetracare/');
-    const tempFiles = result.filter(file => file.name.endsWith('.jpg'));
-    // console.log(tempFiles);
+    const result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/../cache/');
+    let tempFiles = result.filter(file => file.name.endsWith('.pdf'));
+    tempFiles = tempFiles.filter(file => file.name.includes('Right') || file.name.includes('Left'));
+    console.log(tempFiles);
     setFiles(tempFiles);
     // console.log(RNFS.DocumentDirectoryPath + '/../cache/');
   };
@@ -22,7 +23,8 @@ const EyeImages = ({navigation}) => {
     file.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const redirectToPdf = (path,name)=>{
-    navigation.navigate("ImageDownload",{filePath: path,name:name});
+    // console.log(":",name.split(".")[0]);
+    navigation.navigate("ImageDownload",{filePath: path,name:name.split(".")[0]});
   }
 
   const renderItem = ({ item }) => {
