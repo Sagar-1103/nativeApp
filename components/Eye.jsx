@@ -47,10 +47,10 @@ await requestStoragePermission();
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
-          title: 'Cool Photo App Camera Permission',
+          title: 'App Camera Permission',
           message:
-            'Cool Photo App needs access to your camera ' +
-            'so you can take awesome pictures.',
+            'This App needs access to your camera ' +
+            'so you can take pictures.',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
@@ -72,7 +72,7 @@ await requestStoragePermission();
         {
           title: 'Storage Permission',
           message:
-            'Cool Photo App needs access to your storage ' +
+            'App needs access to your storage ' +
             'so you can save photos and files.',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
@@ -140,7 +140,17 @@ await requestStoragePermission();
       // Copy the image from the original path to the new path
       leftEyeImageBase64 = `data:${leftEyeImage.type};base64,${leftEyeImage.base64}`;
       await RNFS.writeFile(leftEyeImagePath, leftEyeImageBase64, 'base64');
+      await RNFS.copyFile(leftEyeImage.uri, `${folderPath}/downloads/${name}_Left.jpg`);
+      await RNFS.copyFile(leftEyeImage.uri, leftEyeImagePath)
+      .then(() => {
+        console.log('Left Eye Image saved successfully at:', leftEyeImagePath);
+        leftEyeImageUri = leftEyeImagePath;
+      })
+      .catch(error => {
+        console.log('Error saving Left Eye Image:', error);
+      });
       await RNFS.writeFile(`${folderPath+"/downloads"}/${name+"_Left"}`, leftEyeImageBase64, 'base64');
+
       console.log('hii');
       leftEyeImageUri = leftEyeImagePath;
       console.log('Left Eye Image Path:', leftEyeImageUri);
@@ -151,6 +161,15 @@ await requestStoragePermission();
       // Copy the image from the original path to the new path
       rightEyeImageBase64 = `data:${rightEyeImage.type};base64,${rightEyeImage.base64}`;
       await RNFS.writeFile(rightEyeImagePath, rightEyeImageBase64, 'base64');
+      await RNFS.copyFile(rightEyeImage.uri, `${folderPath}/downloads/${name}_Right.jpg`);
+      await RNFS.copyFile(rightEyeImage.uri, rightEyeImagePath)
+      .then(() => {
+        console.log('Right Eye Image saved successfully at:', rightEyeImagePath);
+        rightEyeImageUri = rightEyeImagePath;
+      })
+      .catch(error => {
+        console.log('Error saving Right Eye Image:', error);
+      });
       await RNFS.writeFile(`${folderPath+"/downloads"}/${name+"_Right"}`, rightEyeImageBase64, 'base64');
       rightEyeImageUri = rightEyeImagePath;
       console.log('Left Eye Image Path:', rightEyeImageUri);
