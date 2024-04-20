@@ -11,10 +11,10 @@ const EyeImages = ({navigation}) => {
   }, []);
 
   const getFiles = async () => {
-    const result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/../cache/');
-    let tempFiles = result.filter(file => file.name.endsWith('.pdf'));
+    const result = await RNFS.readDir(RNFS.DocumentDirectoryPath + '/Enetracare/downloads');
+    let tempFiles = result.filter(file => file.name.endsWith('.jpg'));
     tempFiles = tempFiles.filter(file => file.name.includes('Right') || file.name.includes('Left'));
-    console.log(tempFiles);
+    // console.log(tempFiles);
     setFiles(tempFiles);
     // console.log(RNFS.DocumentDirectoryPath + '/../cache/');
   };

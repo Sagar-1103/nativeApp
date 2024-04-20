@@ -13,7 +13,7 @@ const Pdf = ({route}) => {
   const downloadPdf = async () => {
     try {
       const id = uuid.v4().slice(0,2);
-      const destinationPath = `${RNFS.DownloadDirectoryPath}/${name.split(" ")[0]}-${id}.pdf`;
+      const destinationPath = `${RNFS.DownloadDirectoryPath}/${name.split(" ")[0]}-${id}.jpg`;
       await RNFS.copyFile(filePath, destinationPath);
       console.log(filePath);
       Alert.alert('Download Successful', `PDF downloaded to downloads folder.`);
@@ -26,11 +26,11 @@ const Pdf = ({route}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={downloadPdf} >
-        <Text style={styles.buttonText}>Download PDF</Text>
+        <Text style={styles.buttonText}>Download Image</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={printPdf}>
+      {/* <TouchableOpacity style={styles.button} onPress={printPdf}>
         <Text style={styles.buttonText}>Print PDF</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
